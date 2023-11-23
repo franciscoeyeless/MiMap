@@ -127,12 +127,12 @@
         android:layout_width="118dp"
         android:layout_height="53dp"
         android:backgroundTint="@color/material_dynamic_primary30"
-        android:text="Button"
+        android:text="Agregar"
         app:layout_constraintBottom_toTopOf="@+id/_dynamic"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/edtnombre"
-        tools:text="Guardar" />
+        tools:text="Agregar" />
 
     <ListView
         android:id="@+id/ListadoUbi"
