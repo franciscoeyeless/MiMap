@@ -29,14 +29,12 @@ import java.util.List;
 import java.util.UUID;
 public class Mapa extends AppCompatActivity implements OnMapReadyCallback, GoogleMap.OnMapClickListener, GoogleMap.OnMapLongClickListener {
 
-    EditText txtLatitud, txtLongitud;
+    EditText edtnombre,txtLatitud, txtLongitud;
     GoogleMap mMap;
     private List<Ubicacion> ListUbicacion = new ArrayList<Ubicacion>();
     private List<String> ListUbicacionName = new ArrayList();
-    ArrayAdapter<Ubicacion> arrayAdapterLibro;
+    ArrayAdapter<Ubicacion> ArrayAdapterUbicacion;
     ArrayAdapter<String> arrayAdapterString;
-
-    EditText edtnombre, getTxtLatitud, getTxtLongitud;
     Button buttonAgregar;
     ListView ListadoUbi;
 
@@ -58,7 +56,7 @@ public class Mapa extends AppCompatActivity implements OnMapReadyCallback, Googl
         txtLatitud=findViewById(R.id.txtLatitud);
         txtLongitud=findViewById(R.id.txtLongitud);
         buttonAgregar=findViewById(R.id.buttonAgregar);
-        //btEliminar=findViewById(R.id.btEliminar);
+
         ListadoUbi=findViewById(R.id.ListadoUbi);
         inicializarFireBase();
         listarUbi();
@@ -67,11 +65,11 @@ public class Mapa extends AppCompatActivity implements OnMapReadyCallback, Googl
             @Override
             public void onClick(View view) {
                 Ubicacion ubicacion = new Ubicacion();
-                //libro.setIdAutor("11111");
+
                 ubicacion.setIdUbi(UUID.randomUUID().toString());
                 ubicacion.setNombre(edtnombre.getText().toString());
                 ubicacion.setLatitud(txtLatitud.getText().toString());
-                ubicacion.setLatitud(txtLongitud.getText().toString());
+                ubicacion.setLongitud(txtLongitud.getText().toString());
                 databaseReference.child("Ubicacion").child(ubicacion.getIdUbi()).setValue(ubicacion);
 
 
@@ -87,7 +85,7 @@ public class Mapa extends AppCompatActivity implements OnMapReadyCallback, Googl
                 for (DataSnapshot objs : snapshot.getChildren()){
                     Ubicacion li =objs.getValue(Ubicacion.class);
                     ListUbicacion.add(li);
-                    ListUbicacionName.add(""+li.getNombre()+" "+li.getLatitud()+" "+li.getLongitud());
+                    ListUbicacionName.add(""+li.getNombre()+" "+li.getLatitud()+" "+li.getLongitud()+" ");
                     arrayAdapterString =new ArrayAdapter<String>(Mapa.this, android.R.layout.simple_expandable_list_item_1,ListUbicacionName);
                     ListadoUbi.setAdapter(arrayAdapterString);
                 }
@@ -116,9 +114,6 @@ public class Mapa extends AppCompatActivity implements OnMapReadyCallback, Googl
         mMap.addMarker(new MarkerOptions().position(Arauco).title("Bicicletero Arauco"));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(Arauco));
 
-        mMap = googleMap;
-        this.mMap.setOnMapClickListener(this);
-        this.mMap.setOnMapLongClickListener(this);
 
         LatLng SgtAldea = new LatLng(-36.611106, -72.099266);
         mMap.addMarker(new MarkerOptions().position(SgtAldea).title("sgto.Aldea y Maipon"));
@@ -130,7 +125,7 @@ public class Mapa extends AppCompatActivity implements OnMapReadyCallback, Googl
         txtLatitud.setText(String.valueOf(latLng.latitude));
         txtLongitud.setText(String.valueOf(latLng.longitude));
 
-
+        mMap.clear();
         LatLng Arauco = new LatLng(latLng.latitude,latLng.longitude);
         mMap.addMarker(new MarkerOptions().position(Arauco).title(""));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(Arauco));
